@@ -1,3 +1,4 @@
+const dbConfig = require('../../data/db-config.js');
 const db = require('../../data/db-config.js');
 
 function find() {
@@ -18,6 +19,9 @@ function find() {
       }
     ]
    */
+  return db("users")
+    .join("roles", "users.role", "=", "roles.role_id")
+    .select("users.id", "users.username", "roles.role_name")
 }
 
 function findBy(filter) {
@@ -34,6 +38,10 @@ function findBy(filter) {
       }
     ]
    */
+  return db("users")
+    .join("roles", "users.role", "=", "roles.role_id")
+    .select("users.user_id", "users.username", "roles.role_name", "users.password")
+    .where(filter)
 }
 
 function findById(user_id) {
@@ -47,6 +55,11 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
+  return db('users')
+    .join('roles', 'users.role', '=', 'role_id')
+    .select('users.user_id', 'users.username', 'roles.role_name')
+    .where('users.user_id', user_id)
+    .first()
 }
 
 /**
